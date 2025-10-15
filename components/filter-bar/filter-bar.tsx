@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/drawer";
 import { Button } from "../ui/button";
 import { Check, List } from "lucide-react";
+import FilterItem from "./filter-item";
 
 const FilterBar = () => {
   return (
@@ -24,10 +25,14 @@ const FilterBar = () => {
 
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           <div className="grid auto-rows-min px-4">
-            <div className="flex px-4 py-4 border-b-2 border-gray-200 items-center justify-between">
-              <h1>ยอดนิยม</h1>
-              <Check color="green" />
-            </div>
+            <FilterItem name="ยอดนิยม" checked/>
+            <FilterItem name="โปรโมชั่น" />
+            <FilterItem name="ต้ม" />
+            <FilterItem name="ยำ" />
+            <FilterItem name="ก๋วยเตี๋ยว" />
+            <FilterItem name="ของทานเล่น" />
+            <FilterItem name="น้ำดื่ม" />
+            
           </div>
         </div>
 

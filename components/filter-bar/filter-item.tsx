@@ -1,14 +1,15 @@
 import { Check } from "lucide-react";
 import React from "react";
 interface FilterItemProps {
-    topic?: string;
+    name?: string;
     checked?: boolean;
 }
-const FilterItem = ({topic, checked} : FilterItemProps) => {
+const FilterItem = ({name, checked = false} : FilterItemProps) => {
   return (
     <div className="flex px-4 py-4 border-b-2 border-gray-200 items-center justify-between">
-      <h1>ยอดนิยม</h1>
-      <Check color="green" />
+      <h1>{name}</h1>
+      {checked && <Check color="green" />}
+      
     </div>
   );
 };
