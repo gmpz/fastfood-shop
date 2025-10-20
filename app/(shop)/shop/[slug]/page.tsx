@@ -10,13 +10,8 @@ import SearchBar from "@/components/search-bar/search-bar";
 import React from "react";
 import OtherMenuBar from "@/components/other-menu/other-menubar";
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
 
-const Shop = async ({ params }: PageProps) => {
+const Shop = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
   return (
     <div className="scroll-smooth bg-gray-200">
