@@ -1,9 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-// import { Label } from "@/components/ui/label";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -18,7 +14,7 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import CardItem from "../card/card-item";
+import ItemDetail from "../item/item-detail";
 
 const SearchBar = () => {
   return (
@@ -27,10 +23,10 @@ const SearchBar = () => {
         <Search className="cursor-pointer" />
       </SheetTrigger>
       <SheetContent className="w-full">
-        <SheetHeader>
-          <SheetTitle>ค้นหารายการ</SheetTitle>
+        <SheetHeader className="pb-0">
+          <SheetTitle className="text-xl">ค้นหารายการ</SheetTitle>
           <SheetDescription asChild>
-            <div>
+            <div className="mt-2">
               <InputGroup>
                 <InputGroupInput placeholder="ค้นหาเมนูของคุณ" />
                 <InputGroupAddon>
@@ -41,31 +37,29 @@ const SearchBar = () => {
           </SheetDescription>
         </SheetHeader>
         <div className="grid flex-1 auto-rows-min px-4 overflow-y-auto scrollbar-hide">
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
-          <CardItem />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          <ItemDetail />
+          
         </div>
         <SheetFooter>
           {/* <Button type="submit">Save changes</Button>

@@ -1,19 +1,14 @@
-import BottomNavbar from "@/components/bottom-navbar/bottom-navbar";
-import CardItem from "@/components/card/card-item";
+
+import BasketBar from "@/components/basket/basket-bar";
+
 import CradPanel from "@/components/card/card-panel";
-import FilterBar from "@/components/filter-bar/filter-bar";
-import HelpMenuBar from "@/components/help-menu/help-menubar";
+import FilterBar from "@/components/filter/filter-bar";
+import TabMenu from "@/components/filter/tab-menu";
+
+import OrderBar from "@/components/order/order-bar";
 import SearchBar from "@/components/search-bar/search-bar";
-import { Badge } from "@/components/ui/badge";
-import {
-  Car,
-  List,
-  MessageCircleQuestionMark,
-  Search,
-  ShoppingBasket,
-} from "lucide-react";
-import Link from "next/link";
 import React from "react";
+import OtherMenuBar from "@/components/other-menu/other-menubar";
 
 interface PageProps {
   params: {
@@ -24,7 +19,7 @@ interface PageProps {
 const Shop = async ({ params }: PageProps) => {
   const { slug } = await params;
   return (
-    <div className="bg-gray-200">
+    <div className="scroll-smooth bg-gray-200">
       {/* topbar */}
 
       <div className="fixed top-0 left-0 z-50 w-full bg-white">
@@ -32,15 +27,15 @@ const Shop = async ({ params }: PageProps) => {
           <div className="text-lg font-bold py-4 flex justify-between items-center">
             <div>ร้าน {slug}</div>
             <div className="flex gap-4 justify-center items-center">
-              <HelpMenuBar />
+              <OtherMenuBar />
               <div className="relative">
-                <Badge
+                {/* <Badge
                   className="absolute -bottom-2 -right-2 h-5 min-w-6 rounded-full px-1 font-mono tabular-nums"
                   variant="destructive"
                 >
                   99
-                </Badge>
-                <ShoppingBasket className="size-8" strokeWidth={1} />
+                </Badge> */}
+                <BasketBar />
               </div>
             </div>
           </div>
@@ -53,15 +48,13 @@ const Shop = async ({ params }: PageProps) => {
               <FilterBar />
             </div>
             <div className="overflow-x-auto scrollbar-hide">
-              <ul className="flex gap-4 whitespace-nowrap py-4">
-                <li>aaaaaaaa</li>
-                <li>bbbbbbbb</li>
-                <li>cccccccc</li>
-                <li>dddddddd</li>
-                <li>eeeeeeee</li>
-                <li>ffffffff</li>
-                <li>gggggggg</li>
-              </ul>
+              <TabMenu
+              tabs={[
+                { label: "ยอดนิยม", value: "popular" },
+                { label: "โปรโมชั่น", value: "promo" },
+                { label: "ต้ม", value: "soup" },
+              ]}
+            />
             </div>
           </div>
         </div>
@@ -69,12 +62,18 @@ const Shop = async ({ params }: PageProps) => {
 
       {/* products grid */}
       <div className="min-h-[1200px] mx-auto mt-12 max-w-lg py-20">
-        <CradPanel topic="ยอดนิยม" />
-        <CradPanel topic="โปรโมชั่น"/>
-        <CradPanel topic="ต้ม"/>
+        <div id="popular" className="scroll-mt-32">
+          <CradPanel topic="ยอดนิยม" />
+        </div>
+        <div id="promo" className="scroll-mt-32">
+          <CradPanel topic="โปรโมชั่น" />
+        </div>
+        <div id="soup" className="scroll-mt-32">
+          <CradPanel topic="ต้ม" />
+        </div>
       </div>
       {/* bottom bar */}
-      <BottomNavbar />
+      <OrderBar />
     </div>
   );
 };

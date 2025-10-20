@@ -3,7 +3,7 @@ import React from "react";
 
 const CardItem = () => {
   return (
-    <div className="flex px-4 py-4 border-b-2 border-gray-200">
+    <div className="flex py-4 border-b-2 border-gray-200">
       {/* Image Placeholder */}
       <div className="w-1/3">
         <img
