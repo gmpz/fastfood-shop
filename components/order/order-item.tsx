@@ -1,26 +1,36 @@
 "use client";
 
-
 import { Badge } from "../ui/badge";
 import { Trash2 } from "lucide-react";
+import { CartItem } from "@/src/types/item";
 
-interface Props {
-  id: number;
+interface Props extends CartItem {
   isSwiped: boolean;
   onSwipe: () => void;
+  onRemove: (id: number) => void; // ฟังก์ชันลบ
 }
 
-const OrderItem = ({ id, isSwiped, onSwipe }: Props) => {
-  
+const OrderItem = ({
+  id,
+  name,
+  quantity,
+  price,
+  options,
+  isSwiped,
+  onSwipe,
+  onRemove,
+}: Props) => {
   return (
     <div className="relative overflow-hidden w-full">
       {/* ปุ่มลบ */}
+
       <div
         className={`
-    absolute right-0 top-0 h-full flex items-center bg-red-500 text-white px-4 z-0 
-    transition-opacity duration-300
-    ${isSwiped ? "opacity-100" : "opacity-0"}
-  `}
+          absolute right-0 top-0 h-full flex items-center bg-red-500 text-white px-4 z-0 
+          transition-opacity duration-300
+          ${isSwiped ? "opacity-100" : "opacity-0"}
+        `}
+        onClick={() => onRemove(id)}
       >
         <Trash2 size={20} />
       </div>
@@ -30,24 +40,40 @@ const OrderItem = ({ id, isSwiped, onSwipe }: Props) => {
         className={`bg-white flex justify-between transition-transform duration-300 z-10 relative border-b ${
           isSwiped ? "-translate-x-16 " : "translate-x-0"
         }`}
-        onClick={onSwipe} // <-- แทนการปัด ลองใช้คลิกก่อน
+        onClick={onSwipe} // แทนการปัด ลองใช้คลิกก่อน
       >
-        <div className="flex gap-3 p-4  w-full">
+        <div className="flex gap-3 p-4 w-full">
           {/* จำนวน */}
           <Badge
             className="h-5 min-w-5 rounded-sm px-1 bg-white text-black text-xs border-[1px] border-gray-400 "
             variant="outline"
           >
-            1
+            {quantity}
           </Badge>
           <div className="flex flex-col">
-            <span className="text-sm font-bold">ผัดไทย</span>
-            <span className="text-xs text-gray-500">tangpanitan</span>
-            <div className="text-xs text-yellow-600 mt-3">แก้ไข</div>
+            <span className="text-sm font-bold">{name}</span>
+            {options.map((opt) => (
+              <span key={opt.name} className="text-xs text-gray-500">
+                {opt.name}:{" "}
+                {Array.isArray(opt.selected)
+                  ? opt.selected.map((c) => c.name).join(", ")
+                  : (opt.selected as { name: string }).name}
+              </span>
+            ))}
+            <div
+              className="text-xs text-yellow-600 mt-2 cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation(); // ป้องกันไม่ให้ onSwipe ทำงาน
+                console.log("แก้ไข item id:", id)
+                // ใส่ logic edit ของคุณตรงนี้
+              }}
+            >
+              แก้ไข
+            </div>
           </div>
         </div>
         <div className="p-4">
-          <span className="text-xs text-gray-500">฿20</span>
+          <span className="text-xs text-gray-500">฿{price}</span>
         </div>
       </div>
     </div>

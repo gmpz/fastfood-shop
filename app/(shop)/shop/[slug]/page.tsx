@@ -1,19 +1,22 @@
-
 import BasketBar from "@/components/basket/basket-bar";
 
 import CradPanel from "@/components/card/card-panel";
-import FilterBar from "@/components/filter/filter-bar";
-import TabMenu from "@/components/filter/tab-menu";
 
 import OrderBar from "@/components/order/order-bar";
-import SearchBar from "@/components/search-bar/search-bar";
+
 import React from "react";
 import OtherMenuBar from "@/components/other-menu/other-menubar";
-
+import Filter from "@/components/filter/filter";
+import SearchBar from "@/components/search-bar/search-bar";
+import { getAllItems, getAllType } from "@/actions/itemActions";
+import { CartProvider } from "@/context/cart-context";
 
 const Shop = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
+  const items = await getAllItems();
+  const types = await getAllType();
   return (
+    <CartProvider>
     <div className="scroll-smooth bg-gray-200">
       {/* topbar */}
 
@@ -36,40 +39,31 @@ const Shop = async ({ params }: { params: Promise<{ slug: string }> }) => {
           </div>
 
           {/* scroll container */}
-          <div className="flex gap-4">
-            {/* content ที่เลื่อนได้ */}
-            <div className="flex gap-4 justify-center items-center">
-              <SearchBar />
-              <FilterBar />
-            </div>
-            <div className="overflow-x-auto scrollbar-hide">
-              <TabMenu
-              tabs={[
-                { label: "ยอดนิยม", value: "popular" },
-                { label: "โปรโมชั่น", value: "promo" },
-                { label: "ต้ม", value: "soup" },
-              ]}
-            />
-            </div>
+          <div className="start items-center flex gap-4">
+            <SearchBar items={items} />
+            <Filter types={types} />
           </div>
         </div>
       </div>
 
       {/* products grid */}
       <div className="min-h-[1200px] mx-auto mt-12 max-w-lg py-20">
-        <div id="popular" className="scroll-mt-32">
-          <CradPanel topic="ยอดนิยม" />
-        </div>
-        <div id="promo" className="scroll-mt-32">
-          <CradPanel topic="โปรโมชั่น" />
-        </div>
-        <div id="soup" className="scroll-mt-32">
-          <CradPanel topic="ต้ม" />
-        </div>
+        {types.map((item) => {
+          const filteredItems = items.filter((x) => x.type === item.type);
+
+          return (
+            <div key={item.type} id={item.type} className="scroll-mt-32">
+              <CradPanel topic={item.name} items={filteredItems} />
+            </div>
+          );
+        })}
       </div>
       {/* bottom bar */}
-      <OrderBar />
+      
+        <OrderBar />
+      
     </div>
+    </CartProvider>
   );
 };
 
