@@ -1,10 +1,10 @@
+'use client';
 import React from "react";
 import BasketItem from "./basket-item";
 import { useBasket } from "@/context/basket-context";
 
 const BasketList = () => {
   const { basket } = useBasket();
-  console.log("basket :", basket);
   
   return (
     <div className="grid flex-1 auto-rows-min px-4 overflow-y-auto scrollbar-hide">
