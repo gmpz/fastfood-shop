@@ -1,5 +1,5 @@
 "use client";
-
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Input } from "@/components/ui/input";
 import {
   Sheet,
@@ -186,21 +186,28 @@ const ItemDetail = ({ items, editMode = false, editItem }: Props) => {
       <SheetTrigger asChild>
         {editMode ? <button>แก้ไข</button> : <CardItem items={items} />}
       </SheetTrigger>
-      <SheetContent className="w-full border-0">
-        <SheetHeader className="p-0">
-          <SheetTitle>
-            <PicDetail img={items.image} />
-          </SheetTitle>
-          <SheetDescription className="px-4 mt-2" asChild>
-            <div className="grid gap-1">
-              <h1 className="text-xl font-bold text-black">{items.name}</h1>
-              <span className="text-md text-gray-500">{items.description}</span>
-            </div>
-          </SheetDescription>
-        </SheetHeader>
+      <SheetHeader className="p-0">
+        {/* ✅ ซ่อน title สำหรับ screen reader */}
+        <VisuallyHidden>
+          <SheetTitle>{items.name}</SheetTitle>
+        </VisuallyHidden>
+      </SheetHeader>
 
-        <div className="grid flex-1 auto-rows-min gap-2 px-4 overflow-y-auto scrollbar-hide mb-6">
-          <div className="grid gap-3">
+      {/* ✅ ปรับ layout ตรงนี้ทั้งหมด */}
+      <SheetContent className="w-full border-0 p-0 flex flex-col h-full">
+        {/* ส่วน scroll ทั้งหมด */}
+        <div className="flex-1 overflow-y-auto scrollbar-hide">
+          {/* รูปภาพ (scroll แล้วหายได้) */}
+          <PicDetail img={items.image} />
+
+          {/* ชื่อเมนู (fixed) */}
+          <div className="sticky top-0 z-30 bg-white dark:bg-gray-900 px-4 py-3 ">
+            <h1 className="text-xl font-bold text-black">{items.name}</h1>
+            <span className="text-md text-gray-500">{items.description}</span>
+          </div>
+
+          {/* ตัวเลือก */}
+          <div className="grid gap-3 px-4 pt-4">
             <ExpandOption
               options={items.options}
               selected={optionsSelected}
@@ -209,7 +216,8 @@ const ItemDetail = ({ items, editMode = false, editItem }: Props) => {
             />
           </div>
 
-          <div className="grid gap-3">
+          {/* note */}
+          <div className="grid gap-3 px-4 mt-4 pb-32">
             <Label>ระบุเพิ่มเติม</Label>
             <Input
               placeholder="เช่น ไม่ใส่ผัก"
@@ -219,7 +227,8 @@ const ItemDetail = ({ items, editMode = false, editItem }: Props) => {
           </div>
         </div>
 
-        <SheetFooter className="border-t-[1px] rounded-xl">
+        {/* footer (fixed ล่างสุด) */}
+        <SheetFooter className="sticky bottom-0 left-0 z-50 bg-white dark:bg-gray-900 border-t rounded-t-xl">
           <TypeOrder value={orderType} onChange={setOrderType} />
           <FooterDetail
             editMode={editMode}
