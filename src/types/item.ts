@@ -34,3 +34,7 @@ export interface CartItem {
   }[];
   price: number; // <-- property นี้ยังขาด
 }
+
+export interface BasketItem extends CartItem {
+  status: "pending" | "preparing" | "ready" | "completed" | "cancelled";
+}

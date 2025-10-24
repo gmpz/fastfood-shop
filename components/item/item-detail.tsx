@@ -22,11 +22,13 @@ import { useCart } from "@/context/cart-context";
 
 interface Props {
   items: Item;
+  editMode?: boolean; // เพิ่ม prop editMode
+  editItem?: CartItem;
 }
 
 type SelectedOptions = Record<number, Choice | Choice[]>;
 
-const ItemDetail = ({ items }: Props) => {
+const ItemDetail = ({ items, editMode = false, editItem }: Props) => {
   const [orderType, setOrderType] = useState<"take-in" | "take-away">(
     "take-in"
   );
@@ -36,7 +38,24 @@ const ItemDetail = ({ items }: Props) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sheetOpen, setSheetOpen] = useState(false); // <-- controlled sheet
 
-  const { addToCart } = useCart();
+  const { addToCart, updateCart } = useCart();
+
+  useEffect(() => {
+    if (editMode && editItem && sheetOpen) {
+      setQuantity(editItem.quantity);
+      setNote(editItem.note);
+      setOrderType(editItem.orderType);
+
+      const newSelected: SelectedOptions = {};
+      editItem.options.forEach((opt) => {
+        const itemOpt = items.options.find((o) => o.name === opt.name);
+        if (itemOpt) {
+          newSelected[itemOpt.id] = opt.selected;
+        }
+      });
+      setOptionsSelected(newSelected);
+    }
+  }, [editMode, editItem, sheetOpen, items.options]);
 
   // ✅ เคลียร์ error realtime ถ้าเลือกครบแล้ว
   useEffect(() => {
@@ -145,7 +164,13 @@ const ItemDetail = ({ items }: Props) => {
 
     // สร้าง orderData และ add to cart
     const orderData = getOrderData();
-    addToCart(orderData);
+
+    if (editMode) {
+      updateCart(orderData); // <-- ใช้ updateCart แทน addToCart
+    } else {
+      addToCart(orderData);
+    }
+    // addToCart(orderData);
 
     // ✅ ปิด sheet และ reset ค่าทั้งหมด
     setSheetOpen(false);
@@ -159,9 +184,8 @@ const ItemDetail = ({ items }: Props) => {
   return (
     <Sheet open={sheetOpen} onOpenChange={handleSheetOpenChange}>
       <SheetTrigger asChild>
-        <CardItem items={items} />
+        {editMode ? <button>แก้ไข</button> : <CardItem items={items} />}
       </SheetTrigger>
-
       <SheetContent className="w-full border-0">
         <SheetHeader className="p-0">
           <SheetTitle>
@@ -198,6 +222,7 @@ const ItemDetail = ({ items }: Props) => {
         <SheetFooter className="border-t-[1px] rounded-xl">
           <TypeOrder value={orderType} onChange={setOrderType} />
           <FooterDetail
+            editMode={editMode}
             quantity={quantity}
             onQuantityChange={setQuantity}
             totalPrice={totalPrice}

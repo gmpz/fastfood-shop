@@ -2,24 +2,30 @@
 
 import { Badge } from "../ui/badge";
 import { Trash2 } from "lucide-react";
-import { CartItem } from "@/src/types/item";
+import { CartItem, Item } from "@/src/types/item";
+import ItemDetail from "../item/item-detail";
 
 interface Props extends CartItem {
   isSwiped: boolean;
   onSwipe: () => void;
   onRemove: (id: number) => void; // ฟังก์ชันลบ
+  items: Item;
 }
 
 const OrderItem = ({
   id,
   name,
   quantity,
+  note,
   price,
   options,
+  orderType,
   isSwiped,
   onSwipe,
   onRemove,
+  items
 }: Props) => {
+  
   return (
     <div className="relative overflow-hidden w-full">
       {/* ปุ่มลบ */}
@@ -64,11 +70,10 @@ const OrderItem = ({
               className="text-xs text-yellow-600 mt-2 cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation(); // ป้องกันไม่ให้ onSwipe ทำงาน
-                console.log("แก้ไข item id:", id)
-                // ใส่ logic edit ของคุณตรงนี้
               }}
             >
-              แก้ไข
+              
+              <ItemDetail items={items} editMode={true} editItem={{id,name,quantity,note,options,price,orderType}} />
             </div>
           </div>
         </div>

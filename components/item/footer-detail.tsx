@@ -7,6 +7,7 @@ interface Props {
   onQuantityChange: (val: number) => void;
   totalPrice: number;
   onAddToCart: () => void;
+  editMode?: boolean;
 }
 
 const FooterDetail = ({
@@ -14,6 +15,7 @@ const FooterDetail = ({
   onQuantityChange,
   totalPrice,
   onAddToCart,
+  editMode = false,
 }: Props) => {
   return (
     <div className="flex justify-between w-full items-center gap-6">
@@ -43,7 +45,8 @@ const FooterDetail = ({
           className="w-full h-11 text-md bg-yellow-600 hover:bg-yellow-700 flex justify-between items-center"
           onClick={onAddToCart}
         >
-          <div>เพิ่มไปยังรายการ</div>
+          {editMode ? <div>อัพเดทรายการ</div> : <div>เพิ่มไปยังรายการ</div>}
+          
           <div>฿{totalPrice}</div>
         </Button>
       </div>
