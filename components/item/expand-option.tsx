@@ -46,7 +46,7 @@ const ExpandOption = ({
 
         return (
           <AccordionItem key={option.id} value={`item-${index + 1}`}>
-            <AccordionTrigger className="focus:outline-none focus:ring-0">
+            <AccordionTrigger >
               <div
                 className={`flex justify-between w-full ${
                   color === "green"

@@ -194,7 +194,7 @@ const ItemDetail = ({ items, editMode = false, editItem }: Props) => {
       </SheetHeader>
 
       {/* ✅ ปรับ layout ตรงนี้ทั้งหมด */}
-      <SheetContent className="w-full border-0 p-0 flex flex-col h-full">
+      <SheetContent className="w-full border-0 p-0 flex flex-col h-full" >
         {/* ส่วน scroll ทั้งหมด */}
         <div className="flex-1 overflow-y-auto scrollbar-hide">
           {/* รูปภาพ (scroll แล้วหายได้) */}
